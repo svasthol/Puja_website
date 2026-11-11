@@ -78,7 +78,7 @@
     var lang = function () { return root.getAttribute('data-lang'); };
     var fmt = function (n) { return '₹' + n.toLocaleString('en-IN'); };
     var dateIn = document.getElementById('date');
-    var t = new Date(); t.setDate(t.getDate() + 1);
+    var t = new Date(); t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
     dateIn.min = t.toISOString().slice(0, 10);
 
     function current() {
