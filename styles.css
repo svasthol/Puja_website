@@ -359,3 +359,31 @@ html[data-lang="en"] .eyebrow { font-family: var(--f-display); font-size: .82rem
 
 /* Pause decorative motion when a section is off screen (keeps scrolling smooth) */
 .is-paused, .is-paused * { animation-play-state: paused !important; }
+
+/* ---------- Opening: Guru Vandanam then Surya, one continuous sky ---------- */
+.opening { position: relative; overflow: hidden; color: var(--sandal);
+  background:
+    radial-gradient(55% 28% at 27% 24%, rgba(35,128,138,.55) 0%, transparent 70%),
+    radial-gradient(50% 26% at 76% 76%, rgba(35,128,138,.6) 0%, transparent 70%),
+    linear-gradient(180deg, #0b3238 0%, #0f4249 48%, #0d3a41 72%, #0b3238 100%); }
+.opening::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .45;
+  background-image: radial-gradient(circle, rgba(255,240,200,.7) 1px, transparent 1.3px), radial-gradient(circle, rgba(255,240,200,.4) 1px, transparent 1.3px);
+  background-size: 90px 90px, 53px 53px; background-position: 0 0, 27px 41px; }
+.opening > * { position: relative; }
+.opening .guru, .opening .hero { background: transparent; }
+.opening .guru::before, .opening .hero::after { display: none; }
+.opening .guru .wrap { padding-block: clamp(2.2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem); }
+.opening-divider { padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+.opening .hero .wrap { padding-top: clamp(1rem, 3vw, 2rem); }
+.opening > .thoranam { animation: drop .9s ease-out both; }
+.opening .guru-art { animation: dawn 1.4s cubic-bezier(.2,.7,.2,1) both; }
+.opening .guru-copy > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+.opening .guru-copy > *:nth-child(2) { animation-delay: .12s; } .opening .guru-copy > *:nth-child(3) { animation-delay: .24s; }
+.opening .guru-copy > *:nth-child(4) { animation-delay: .36s; } .opening .guru-copy > *:nth-child(n+5) { animation-delay: .48s; }
+@media (prefers-reduced-motion: reduce) { .opening > .thoranam, .opening .guru-art, .opening .guru-copy > * { animation: none; } }
+
+.shloka .pada { display: inline-block; white-space: nowrap; }
+@media (max-width: 480px) { .shloka .roman { font-size: 1.05rem; } .shloka p.te { font-size: 1.2rem; } }
+/* Surya section is second now: no entrance animation, always visible */
+.opening .hero-copy > *, .opening .hero-art { animation: none; }
+
