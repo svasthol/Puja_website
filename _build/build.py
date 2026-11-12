@@ -126,7 +126,7 @@ def B(en, te):
 # SVG ornaments
 # ----------------------------------------------------------------------------
 def emblem(size=44):
-    return f'<img class="emblem" src="assets/emblem-192.png" width="{size}" height="{size}" alt="">'
+    return f'<img class="emblem" src="assets/emblem-96.webp" width="{size}" height="{size}" alt="">'
 
 def thoranam_uri(string_col="#c98a2b"):
     leaf = "M0,0 C7,9 7,25 0,36 C-7,25 -7,9 0,0Z"
@@ -163,7 +163,7 @@ def hero_art():
     <circle cx="{cx}" cy="{cy}" r="230" fill="url(#halo)"/>
   </svg>
   <svg class="stage-rays" viewBox="0 -30 500 560" aria-hidden="true"><path d="{" ".join(rays)}" fill="#e9b863" opacity=".6"/></svg>
-  <video class="ride-video" autoplay muted loop playsinline preload="auto" poster="assets/surya-ride-poster.webp" width="720" height="648" aria-hidden="true">
+  <video class="ride-video" autoplay muted loop playsinline preload="none" poster="assets/surya-ride-poster.webp" width="720" height="648" aria-hidden="true">
     <source src="assets/surya-ride.mp4" type="video/mp4">
   </video>
   <svg class="stage-front" viewBox="0 -30 500 560" aria-hidden="true">
@@ -201,7 +201,22 @@ POLICIES = [("terms-and-conditions.html", "Terms & Conditions", "నిబంధ
             ("privacy-policy.html", "Privacy Policy", "గోప్యతా విధానం"),
             ("refund-policy.html", "Cancellation & Refund Policy", "రద్దు & రీఫండ్ విధానం"),
             ("service-delivery-policy.html", "Shipping & Service Delivery", "షిప్పింగ్ & సేవా డెలివరీ")]
-FONTS = "https://fonts.googleapis.com/css2?family=Marcellus&family=Mukta:wght@400;600&family=Ramaraja&family=Mandali&display=swap"
+FONTS = None  # fonts are self-hosted in assets/fonts (see styles.css @font-face)
+
+import json as _json
+SITE = f"https://{BIZ['domain']}"
+ORG = {"@type": "Organization", "@id": SITE + "/#org", "name": "Mana Guruji", "alternateName": "మన గురూజీ", "url": SITE + "/",
+       "logo": SITE + "/assets/icon-512.png", "email": BIZ["email"],
+       "identifier": {"@type": "PropertyValue", "propertyID": "Udyam Registration Number", "value": BIZ["udyam"]},
+       "contactPoint": [{"@type": "ContactPoint", "contactType": "customer support", "email": BIZ["email"], "areaServed": "IN", "availableLanguage": ["Telugu", "English", "Hindi"]},
+                        {"@type": "ContactPoint", "contactType": "sales", "email": BIZ["contact_email"], "areaServed": "IN"}]}
+
+def jsonld(*objs):
+    data = {"@context": "https://schema.org", "@graph": list(objs)}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False, separators=(",", ":")) + '</script>'
+
+def slug(sv): return f'{sv["id"]}-hyderabad.html'
+
 
 CUR = ' aria-current="page"'
 
@@ -218,6 +233,8 @@ def header(active):
   </div>
 </header>'''
 
+POPULAR = ["satyanarayana", "gruhapravesam", "ganapathi-homam", "rudrabhishekam", "namakaranam", "navagraha-homam"]
+
 def footer():
     T = thoranam_uri()
     pol = "".join(f'<li><a href="{h}">{B(e, t)}</a></li>' for h, e, t in POLICIES)
@@ -231,9 +248,10 @@ def footer():
         <p>{B("Book traditional Hindu pujas, vratams and homams with KYC-verified pandits in Hyderabad, at your home or online.",
                "హైదరాబాద్‌లో KYC ధ్రువీకరించిన పండితులతో మీ ఇంట్లో లేదా ఆన్‌లైన్‌లో సంప్రదాయ పూజలు, వ్రతాలు, హోమాలు బుక్ చేసుకోండి.")}</p>
       </div>
-      <div><h4>{B("Explore", "పేజీలు")}</h4><ul>{nav}</ul></div>
-      <div><h4>{B("Policies", "విధానాలు")}</h4><ul>{pol}</ul></div>
-      <div><h4>{B("Contact", "సంప్రదించండి")}</h4><ul>
+      <div><h2 class="fh">{B("Explore", "పేజీలు")}</h2><ul>{nav}</ul></div>
+      <div><h2 class="fh">{B("Popular pujas", "ప్రసిద్ధ పూజలు")}</h2><ul>{"".join(f'<li><a href="{slug(sv)}">{B(sv["en"].split(" (")[0], sv["te"])}</a></li>' for sv in S if sv["id"] in POPULAR)}</ul></div>
+      <div><h2 class="fh">{B("Policies", "విధానాలు")}</h2><ul>{pol}</ul></div>
+      <div><h2 class="fh">{B("Contact", "సంప్రదించండి")}</h2><ul>
         <li>{B("Support", "సహాయం")}: {BIZ["email"]}</li><li>{B("General & collaborations", "సాధారణ విచారణలు & భాగస్వామ్యాలు")}: {BIZ["contact_email"]}</li><li>{B(BIZ["address"], "హైదరాబాద్, తెలంగాణ 500083, భారతదేశం")}</li>
         <li>{B(BIZ["hours_en"], BIZ["hours_te"])}</li></ul></div>
     </div>
@@ -250,19 +268,35 @@ def fix_eyebrows(html):
     return re.sub(r'<span class="eyebrow">([^<]+)</span>',
                   lambda m: f'<span class="eyebrow">{B(EYEBROWS.get(m.group(1), m.group(1)), m.group(1))}</span>', html)
 
-def page(fname, title, desc, body, active=None, extra_head="", extra_script=""):
+def page(fname, title, desc, body, active=None, extra_head="", extra_script="", schema=None):
     body = fix_eyebrows(body)
+    url = SITE + "/" + ("" if fname == "index.html" else fname)
+    graph = [ORG, {"@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/", "name": "Mana Guruji", "inLanguage": ["en-IN", "te-IN"], "publisher": {"@id": SITE + "/#org"}}] + (schema or [])
     head = f'''<title>{title}</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="{desc}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="https://{BIZ["domain"]}/{'' if fname == 'index.html' else fname}">
 <link rel="canonical" href="https://{BIZ["domain"]}/{'' if fname == 'index.html' else fname}">
-<link rel="icon" href="assets/favicon-48.png" type="image/png">\n<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">\n<meta property="og:image" content="https://{BIZ["domain"]}/assets/og-image.jpg">\n<meta name="theme-color" content="#0b3238">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="{FONTS}">
-<link rel="stylesheet" href="styles.css">{extra_head}'''
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0b3238">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mana Guruji">
+<meta property="og:locale" content="en_IN">
+<meta property="og:locale:alternate" content="te_IN">
+<meta property="og:image" content="{SITE}/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="{'noindex' if fname == '404.html' else 'index, follow, max-image-preview:large'}">
+<link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/mukta-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">{extra_head}
+{jsonld(*graph)}'''
     inner = f'''{header(active)}
 <main id="main">
 {body}
@@ -416,9 +450,17 @@ def home():
     <a class="btn btn-gold" href="book.html">{B("Book a Puja", "పూజ బుక్ చేయండి")}</a>
   </div>
 </section>'''
-    return page("index.html", "Mana Guruji",
-                "Book Hindu pujas, vratams and homams with KYC-verified Telugu pandits in Hyderabad, at home or online. Published prices, secure payment.",
-                body, "index.html")
+    lb = {"@type": "LocalBusiness", "@id": SITE + "/#business", "name": "Mana Guruji", "url": SITE + "/", "image": SITE + "/assets/og-image.jpg",
+          "logo": SITE + "/assets/icon-512.png", "email": BIZ["email"], "priceRange": "₹1,500 – ₹31,000",
+          "description": "Book KYC-verified Telugu pandits in Hyderabad for pujas, vratams, homams and family ceremonies, at home or online.",
+          "address": {"@type": "PostalAddress", "addressLocality": "Hyderabad", "addressRegion": "Telangana", "postalCode": "500083", "addressCountry": "IN"},
+          "areaServed": [{"@type": "City", "name": "Hyderabad"}, {"@type": "City", "name": "Secunderabad"}],
+          "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "06:00", "closes": "21:00"}],
+          "parentOrganization": {"@id": SITE + "/#org"}}
+    pre = '\n<link rel="preload" as="image" href="assets/dakshinamurthy-760.webp" imagesrcset="assets/dakshinamurthy-760.webp 760w, assets/dakshinamurthy-1200.webp 1200w" imagesizes="(max-width: 860px) 92vw, 520px" fetchpriority="high">'
+    return page("index.html", "Book Telugu Pandits in Hyderabad for Pujas & Homams | Mana Guruji",
+                "Book KYC-verified Telugu pandits in Hyderabad for Satyanarayana Vratham, Gruhapravesam, homams and family ceremonies. Fixed prices, at home or online.",
+                body, "index.html", extra_head=pre, schema=[lb])
 
 
 GLOSS = [("gurave", "గురవే", "to the Guru", "గురువుకు"), ("sarva-lokānāṁ", "సర్వలోకానాం", "of all the worlds", "సమస్త లోకాలకు"),
@@ -477,10 +519,10 @@ def services():
             kit = (B(f'Samagri kit {inr(s["kit"])}', f'సామగ్రి కిట్ {inr(s["kit"])}') if s["kit"]
                    else B("Samagri list shared in advance", "సామగ్రి జాబితా ముందుగా పంపుతాం"))
             rows += f'''<div class="seva">
-  <div class="seva-name"><h3>{B(s["en"], s["te"])}</h3></div>
+  <div class="seva-name"><h3><a class="seva-link" href="{slug(s)}">{B(s["en"], s["te"])}</a></h3></div>
   <div class="seva-price">{inr(s["price"])}</div>
   <p class="seva-desc">{B(s["dEn"], s["dTe"])}</p>
-  <div class="seva-meta"><span>{B("Duration: " + s["durEn"], "సమయం: " + s["durTe"])}</span><span>{kit}</span><a class="book-link" href="book.html#{s["id"]}">{B("Book this puja", "ఈ పూజ బుక్ చేయండి")}</a></div>
+  <div class="seva-meta"><span>{B("Duration: " + s["durEn"], "సమయం: " + s["durTe"])}</span><span>{kit}</span><a class="more-link" href="{slug(s)}">{B("Details", "వివరాలు")}</a><a class="book-link" href="book.html#{s["id"]}">{B("Book this puja", "ఈ పూజ బుక్ చేయండి")}</a></div>
 </div>'''
         boards += f'''<section class="board" id="{cid}">
   <div class="board-head"><h2>{B(en, te)}</h2><p>{B(den, dte)}</p></div>
@@ -494,9 +536,12 @@ def services():
 <div class="note">{B("Prices include all Mana Guruji charges. Travel within Hyderabad city limits is included; for venues outside city limits we confirm any travel charge before you pay. Payment is collected online through Razorpay after your booking is confirmed.",
                      "ధరల్లో మన గురూజీ ఛార్జీలన్నీ ఉన్నాయి. హైదరాబాద్ నగర పరిధిలో ప్రయాణ ఖర్చు ధరలోనే ఉంది; నగరం బయట అయితే చెల్లింపుకు ముందే ప్రయాణ ఛార్జీ తెలియజేస్తాం. బుకింగ్ నిర్ధారణ తర్వాత Razorpay ద్వారా ఆన్‌లైన్‌లో చెల్లింపు.")}</div>
 </div></section>'''
-    return page("services.html", "Pujas & Prices · Mana Guruji",
-                "Price list for pujas, vratams, homams and samskaras performed by Mana Guruji pandits in Hyderabad.",
-                body, "services.html")
+    cat = {"@type": "OfferCatalog", "name": "Puja and homam services in Hyderabad", "url": SITE + "/services.html",
+           "itemListElement": [{"@type": "Offer", "price": sv["price"], "priceCurrency": "INR", "url": SITE + "/" + slug(sv),
+                                "itemOffered": {"@type": "Service", "name": sv["en"], "areaServed": "Hyderabad"}} for sv in S]}
+    return page("services.html", "Puja & Homam Prices in Hyderabad | Mana Guruji",
+                "Price list for 19 pujas, vratams, homams and family ceremonies in Hyderabad: Satyanarayana Vratham from ₹2,500, Gruhapravesam ₹7,500, Ganapathi Homam ₹6,500 and more.",
+                body, "services.html", schema=[cat])
 
 def book():
     opts = ""
@@ -554,7 +599,7 @@ def book():
 </aside>
 </div></section>'''
     script = f"<script>window.MG_SEVAS = {data};</script>\n"
-    return page("book.html", "Book a Puja · Mana Guruji",
+    return page("book.html", "Book a Pandit in Hyderabad | Mana Guruji",
                 "Request a puja booking with a verified pandit in Hyderabad. Choose puja, date and area; pay securely after confirmation.",
                 body, "book.html", extra_script=script)
 
@@ -586,7 +631,7 @@ def contact():
   <div class="form-status" role="status" hidden></div>
 </form>
 </div></section>'''
-    return page("contact.html", "Contact · Mana Guruji", "Contact Mana Guruji for puja bookings, payments and support in Hyderabad.", body, "contact.html")
+    return page("contact.html", "Contact Mana Guruji | Puja Booking Support, Hyderabad", "Contact Mana Guruji for puja bookings, payments and support in Hyderabad.", body, "contact.html")
 
 def about():
     body = page_hero("మా గురించి", "About Mana Guruji", "మన గురూజీ గురించి",
@@ -612,7 +657,7 @@ def about():
 <h2>{B("Business details", "వ్యాపార వివరాలు")}</h2>
 <p>{B(f"Mana Guruji is an MSME registered with the Government of India (Udyam Registration No. {BIZ['udyam']}), based in {BIZ['address']}. For bookings and support, email {BIZ['email']}. For general enquiries and collaborations, email {BIZ['contact_email']}.", f"మన గురూజీ భారత ప్రభుత్వం వద్ద నమోదైన MSME సంస్థ (ఉద్యమ్ నమోదు సంఖ్య {BIZ['udyam']}), హైదరాబాద్, తెలంగాణ 500083 కేంద్రంగా పనిచేస్తోంది. బుకింగ్‌లు, సహాయం కోసం {BIZ['email']} కు, సాధారణ విచారణలు, భాగస్వామ్యాల కోసం {BIZ['contact_email']} కు ఈమెయిల్ చేయండి.")}</p>
 </article></div></section>'''
-    return page("about.html", "About · Mana Guruji", "About Mana Guruji, a Hyderabad platform to book verified Telugu pandits for pujas.", body, "about.html")
+    return page("about.html", "About Mana Guruji | Verified Telugu Pandits in Hyderabad", "About Mana Guruji, a Hyderabad platform to book verified Telugu pandits for pujas.", body, "about.html")
 
 TE_NOTE = '<p class="te-note te">ఈ విధానం ఆంగ్లంలో ఉంది. ఏదైనా సందేహం ఉంటే ఆంగ్ల పాఠమే చెల్లుబాటు అవుతుంది. తెలుగులో వివరణ కోసం మమ్మల్ని సంప్రదించండి.</p>'
 
@@ -695,17 +740,101 @@ def notfound():
                      f'<p><a class="btn btn-gold" href="index.html">{B("Go to home page", "హోమ్ పేజీకి వెళ్ళండి")}</a></p>')
     return page("404.html", "Page not found · Mana Guruji", "Page not found.", body)
 
+def puja_page(sv):
+    c = next(c for c in CATS if c[0] == sv["cat"])
+    online = sv["cat"] == "online"
+    kit = (B(f'Optional samagri kit: {inr(sv["kit"])}. The pandit brings all puja items.', f'ఐచ్ఛిక సామగ్రి కిట్: {inr(sv["kit"])}. పూజా సామగ్రి అంతా పండితులే తెస్తారు.') if sv["kit"]
+           else B("We share the samagri list in advance so you can keep everything ready at home.", "ఇంట్లో సిద్ధం చేసుకోవడానికి సామగ్రి జాబితాను ముందుగానే పంపుతాం."))
+    where = B("Live over a video call, from anywhere", "వీడియో కాల్ ద్వారా ప్రత్యక్షంగా, ఎక్కడినుండైనా") if online else B("At your home or venue in Hyderabad and Secunderabad", "హైదరాబాద్, సికింద్రాబాద్‌లో మీ ఇంటి వద్ద లేదా వేదిక వద్ద")
+    related = [x for x in S if x["cat"] == sv["cat"] and x["id"] != sv["id"]][:3]
+    related += [x for x in S if x["id"] in POPULAR and x["id"] != sv["id"] and x not in related][:3 - len(related)]
+    rel = "".join(f'<li><a href="{slug(x)}">{B(x["en"], x["te"])}</a> <span class="rel-price">{inr(x["price"])}</span></li>' for x in related)
+    faqs = [(f"How much does {sv['en']} cost in Hyderabad?", f"హైదరాబాద్‌లో {sv['te']} ఖర్చు ఎంత?",
+             f"The pandit service fee is {inr(sv['price'])}, including every pandit the ritual needs." + (f" The optional samagri kit is {inr(sv['kit'])}, so the total with the kit is {inr(sv['price'] + sv['kit'])}." if sv['kit'] else "") + " The pandit will not ask for extra money on the day.",
+             f"పండితుల సేవా రుసుము {inr(sv['price'])}; ఆ కార్యానికి అవసరమైన పండితులందరూ ఇందులో ఉంటారు." + (f" ఐచ్ఛిక సామగ్రి కిట్ {inr(sv['kit'])}, కిట్‌తో కలిపి మొత్తం {inr(sv['price'] + sv['kit'])}." if sv['kit'] else "") + " పూజ రోజు పండితులు అదనపు డబ్బు అడగరు."),
+            (f"How long does {sv['en']} take?", f"{sv['te']}కు ఎంత సమయం పడుతుంది?",
+             f"{sv['durEn']}. The time can vary a little with your family's customs.", f"{sv['durTe']}. మీ కుటుంబ ఆచారాలను బట్టి కొంచెం మారవచ్చు."),
+            ("Can I choose the date and muhurtham?", "తేదీ, ముహూర్తం నేనే ఎంచుకోవచ్చా?",
+             "Yes. Choose your preferred date and time when you book, or pick \"As per muhurtham\" and the pandit will guide you on a suitable time.",
+             "అవును. బుకింగ్ సమయంలో మీకు అనుకూలమైన తేదీ, సమయం ఎంచుకోండి, లేదా “ముహూర్తం ప్రకారం” ఎంచుకుంటే పండితులు తగిన సమయం సూచిస్తారు."),
+            ("What if I need to cancel?", "రద్దు చేయాలంటే?",
+             f"Cancel before a pandit is assigned for a full refund. After assignment, {BIZ['refund_before_24h']}% is refunded if you cancel more than 24 hours before the puja and {BIZ['refund_within_24h']}% within 24 hours.",
+             f"పండితుని కేటాయించే ముందు రద్దు చేస్తే పూర్తి రీఫండ్. కేటాయించిన తర్వాత, 24 గంటల ముందు రద్దు చేస్తే {BIZ['refund_before_24h']}%, 24 గంటల లోపు అయితే {BIZ['refund_within_24h']}% రీఫండ్.")]
+    faq = "".join(f'<details><summary>{B(q, qt)}</summary><p>{B(a, at)}</p></details>' for q, qt, a, at in faqs)
+    body = page_hero(B(c[1], c[2]), sv["en"], sv["te"], sv["dEn"], sv["dTe"],
+                     f'<p class="crumbs"><a href="index.html">{B("Home", "హోమ్")}</a> › <a href="services.html#{c[0]}">{B(c[1], c[2])}</a></p>')
+    body += f'''<section class="section kolam-bg"><div class="wrap puja-grid">
+<div class="puja-main">
+  <div class="board">
+    <div class="board-head"><h2>{B("At a glance", "ముఖ్య వివరాలు")}</h2></div>
+    <dl class="facts">
+      <div><dt>{B("Pandit service fee", "పండితుల సేవా రుసుము")}</dt><dd class="seva-price">{inr(sv["price"])}</dd></div>
+      <div><dt>{B("Duration", "సమయం")}</dt><dd>{B(sv["durEn"], sv["durTe"])}</dd></div>
+      <div><dt>{B("Where", "ఎక్కడ")}</dt><dd>{where}</dd></div>
+      <div><dt>{B("Samagri", "సామగ్రి")}</dt><dd>{kit}</dd></div>
+      <div><dt>{B("Pandits", "పండితులు")}</dt><dd>{B("KYC-verified Telugu Vaidika pandits. Explanation in Telugu, or Hindi or English on request.", "KYC ధ్రువీకరించిన తెలుగు వైదిక పండితులు. తెలుగులో వివరణ; కోరితే హిందీ లేదా ఇంగ్లీష్‌లో.")}</dd></div>
+    </dl>
+    <p style="margin-top:1.4rem"><a class="btn btn-gold" href="book.html#{sv["id"]}">{B("Book " + sv["en"].split(" (")[0], sv["te"] + " బుక్ చేయండి")}</a></p>
+  </div>
+  <div class="board">
+    <div class="board-head"><h2>{B("How booking works", "బుకింగ్ ఎలా జరుగుతుంది")}</h2></div>
+    <ol class="mini-steps">
+      <li>{B("Send your preferred date, time and area.", "మీకు అనుకూలమైన తేదీ, సమయం, ప్రాంతం పంపండి.")}</li>
+      <li>{B("We confirm a verified pandit and send a secure Razorpay payment link.", "ధ్రువీకరించిన పండితుని నిర్ధారించి సురక్షిత Razorpay చెల్లింపు లింక్ పంపుతాం.")}</li>
+      <li>{B("You receive the pandit's name before the puja day.", "పూజ రోజుకు ముందే పండితుని పేరు తెలియజేస్తాం.")}</li>
+      <li>{B("The pandit arrives on time and performs the full vidhi.", "పండితులు సమయానికి వచ్చి పూర్తి విధివిధానాలతో పూజ చేస్తారు.")}</li>
+    </ol>
+  </div>
+  <div class="board">
+    <div class="board-head"><h2>{B("Questions", "ప్రశ్నలు")}</h2></div>
+    <div class="faq">{faq}</div>
+  </div>
+</div>
+<aside class="puja-side">
+  <div class="summary-card">
+    <h2 class="fh-side">{B("Related pujas", "సంబంధిత పూజలు")}</h2>
+    <ul class="rel">{rel}</ul>
+    <a class="btn btn-gold" href="services.html">{B("All pujas & prices", "అన్ని పూజలు & ధరలు")}</a>
+  </div>
+</aside>
+</div></section>'''
+    url = SITE + "/" + slug(sv)
+    schema = [{"@type": "Service", "@id": url + "#service", "name": sv["en"], "alternateName": sv["te"], "description": sv["dEn"], "url": url,
+               "serviceType": "Hindu puja service", "provider": {"@id": SITE + "/#org"},
+               "areaServed": {"@type": "City", "name": "Hyderabad"} if not online else "IN",
+               "offers": {"@type": "Offer", "price": sv["price"], "priceCurrency": "INR", "url": url, "availability": "https://schema.org/InStock"}},
+              {"@type": "BreadcrumbList", "itemListElement": [
+                  {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
+                  {"@type": "ListItem", "position": 2, "name": "Pujas & Prices", "item": SITE + "/services.html"},
+                  {"@type": "ListItem", "position": 3, "name": sv["en"], "item": url}]}]
+    name = sv["en"].split(" (")[0]
+    where_t = "Online" if online else "Hyderabad"
+    title = f"{name}{'' if online else ' in Hyderabad'}: Pandit, Cost & Booking | Mana Guruji"
+    desc = f"Book {name} with verified Telugu pandits {'online over video call' if online else 'in Hyderabad'}. Pandit fee {inr(sv['price'])}" + (f", samagri kit {inr(sv['kit'])}" if sv['kit'] else "") + f". {sv['durEn']}. Book online."
+    return page(slug(sv), title, desc, body, "services.html", schema=schema)
+
 PAGES = {"index.html": home, "services.html": services, "book.html": book, "about.html": about, "contact.html": contact,
          "terms-and-conditions.html": terms, "privacy-policy.html": privacy, "refund-policy.html": refund,
          "service-delivery-policy.html": delivery, "404.html": notfound}
+for _sv in S:
+    PAGES[slug(_sv)] = (lambda sv=_sv: puja_page(sv))
 
 def main():
     # Writes into the repo root. Never deletes anything. Images and video live in /assets.
     d = OUT
-    shutil.copy(os.path.join(SRC, "styles.css"), d)
-    shutil.copy(os.path.join(SRC, "site.js"), d)
-    open(os.path.join(d, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nSitemap: https://{BIZ['domain']}/sitemap.xml\n")
-    urls = "".join(f"<url><loc>https://{BIZ['domain']}/{'' if p == 'index.html' else p}</loc></url>" for p in PAGES if p != "404.html")
+    import datetime
+    today = datetime.date.today().isoformat()
+    css, js = open(os.path.join(SRC, "styles.css")).read(), open(os.path.join(SRC, "site.js")).read()
+    try:  # minify when available:  pip install rcssmin rjsmin
+        import rcssmin, rjsmin
+        css, js = rcssmin.cssmin(css), rjsmin.jsmin(js)
+    except ImportError:
+        print("note: rcssmin/rjsmin not installed, writing unminified CSS/JS")
+    open(os.path.join(d, "styles.css"), "w").write(css)
+    open(os.path.join(d, "site.js"), "w").write(js)
+    open(os.path.join(d, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nDisallow: /_build/\nSitemap: https://{BIZ['domain']}/sitemap.xml\n")
+    prio = lambda p: "1.0" if p == "index.html" else ("0.9" if p in ("services.html", "book.html") else ("0.8" if p.endswith("-hyderabad.html") else "0.5"))
+    urls = "".join(f"<url><loc>https://{BIZ['domain']}/{'' if p == 'index.html' else p}</loc><lastmod>{today}</lastmod><priority>{prio(p)}</priority></url>" for p in PAGES if p != "404.html")
     open(os.path.join(d, "sitemap.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>')
     for name, fn in PAGES.items():
         full, _ = fn()
