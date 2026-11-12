@@ -50,61 +50,61 @@ def seva(id, cat, en, te, price, kit, dur_en, dur_te, d_en, d_te):
     S.append(dict(id=id, cat=cat, en=en, te=te, price=price, kit=kit,
                   durEn=dur_en, durTe=dur_te, dEn=d_en, dTe=d_te))
 
-seva("satyanarayana", "vratams", "Sri Satyanarayana Swamy Vratham", "శ్రీ సత్యనారాయణ స్వామి వ్రతం", 2100, 1500, "2 to 2.5 hours", "2 – 2.5 గంటలు",
+seva("satyanarayana", "vratams", "Sri Satyanarayana Swamy Vratham", "శ్రీ సత్యనారాయణ స్వామి వ్రతం", 2500, 1500, "2 to 2.5 hours", "2 – 2.5 గంటలు",
      "The full vratham with Ganapathi puja, kalasha sthapana, all five katha chapters and prasadam nivedana. Popular for housewarmings, birthdays, anniversaries and new ventures.",
      "గణపతి పూజ, కలశ స్థాపన, ఐదు అధ్యాయాల వ్రత కథ, ప్రసాద నివేదనతో పూర్తి వ్రతం. గృహప్రవేశం, పుట్టినరోజు, వివాహ వార్షికోత్సవాలకు అనువైనది.")
-seva("varalakshmi", "vratams", "Sri Varalakshmi Vratham", "శ్రీ వరలక్ష్మీ వ్రతం", 2100, 1500, "About 2 hours", "సుమారు 2 గంటలు",
+seva("varalakshmi", "vratams", "Sri Varalakshmi Vratham", "శ్రీ వరలక్ష్మీ వ్రతం", 2500, 1500, "About 2 hours", "సుమారు 2 గంటలు",
      "Sravana masam vratham for Sri Varalakshmi Devi with kalasha alankarana, thoram puja and the vratha katha.",
      "శ్రావణ మాసంలో వరలక్ష్మీ దేవి వ్రతం: కలశ అలంకరణ, తోరపూజ, వ్రత కథ.")
-seva("lakshmi-kubera", "vratams", "Sri Lakshmi Kubera Puja", "శ్రీ లక్ష్మీ కుబేర పూజ", 2500, 1600, "1.5 to 2 hours", "1.5 – 2 గంటలు",
+seva("lakshmi-kubera", "vratams", "Sri Lakshmi Kubera Puja", "శ్రీ లక్ష్మీ కుబేర పూజ", 2700, 1600, "1.5 to 2 hours", "1.5 – 2 గంటలు",
      "Puja to Sri Mahalakshmi and Kubera with ashtottaram and archana. Often performed on Deepavali, Dhanatrayodashi or at a new shop.",
      "అష్టోత్తరం, అర్చనతో శ్రీ మహాలక్ష్మి, కుబేర పూజ. దీపావళి, ధనత్రయోదశి, కొత్త దుకాణ ప్రారంభంలో చేస్తారు.")
 seva("rudrabhishekam", "vratams", "Rudrabhishekam", "రుద్రాభిషేకం", 3100, 1800, "About 2 hours", "సుమారు 2 గంటలు",
      "Abhishekam of Lord Shiva with Sri Rudram (namakam and chamakam), using milk, curd, honey and panchamrutham.",
      "శ్రీ రుద్రం (నమకం, చమకం) పఠనంతో పాలు, పెరుగు, తేనె, పంచామృతాలతో శివునికి అభిషేకం.")
-seva("gruhapravesam", "home", "Gruhapravesam (Housewarming)", "గృహప్రవేశం", 5100, 2500, "3 to 4 hours", "3 – 4 గంటలు",
+seva("gruhapravesam", "home", "Gruhapravesam (Housewarming)", "గృహప్రవేశం", 7500, 3500, "3 to 4 hours", "3 – 4 గంటలు",
      "Ganapathi puja, punyahavachanam, Vastu puja and Navagraha puja, followed by the ceremonial entry into the home and the traditional boiling of milk.",
      "గణపతి పూజ, పుణ్యాహవాచనం, వాస్తు పూజ, నవగ్రహ పూజ, తర్వాత గృహప్రవేశం, పాలు పొంగించడం.")
-seva("bhoomi-puja", "home", "Bhoomi Puja & Shankusthapana", "భూమి పూజ & శంకుస్థాపన", 3100, 1800, "1.5 to 2 hours", "1.5 – 2 గంటలు",
+seva("bhoomi-puja", "home", "Bhoomi Puja & Shankusthapana", "భూమి పూజ & శంకుస్థాపన", 5100, 2500, "1.5 to 2 hours", "1.5 – 2 గంటలు",
      "Performed at the site before construction begins: Ganapathi puja, Bhoodevi puja and laying of the foundation stone.",
      "నిర్మాణం ప్రారంభానికి ముందు స్థలంలో: గణపతి పూజ, భూదేవి పూజ, శంకుస్థాపన.")
-seva("ganapathi-homam", "homams", "Sri Maha Ganapathi Homam", "శ్రీ మహాగణపతి హోమం", 3500, 2200, "About 2 hours", "సుమారు 2 గంటలు",
+seva("ganapathi-homam", "homams", "Sri Maha Ganapathi Homam", "శ్రీ మహాగణపతి హోమం", 6500, 4500, "About 2 hours", "సుమారు 2 గంటలు",
      "Homam to Sri Maha Ganapathi before any new undertaking, with sankalpam, moola mantra japam and purnahuti.",
      "కొత్త పని ప్రారంభానికి ముందు శ్రీ మహాగణపతి హోమం: సంకల్పం, మూలమంత్ర జపం, పూర్ణాహుతి.")
-seva("navagraha-homam", "homams", "Navagraha Homam", "నవగ్రహ హోమం", 5500, 3000, "About 3 hours", "సుమారు 3 గంటలు",
+seva("navagraha-homam", "homams", "Navagraha Homam", "నవగ్రహ హోమం", 11000, 6000, "About 3 hours", "సుమారు 3 గంటలు",
      "Homam for the nine grahas with japam and the prescribed samidhas for each graha, followed by purnahuti.",
      "తొమ్మిది గ్రహాలకు ప్రత్యేక జపం, నిర్దిష్ట సమిధలతో నవగ్రహ హోమం, పూర్ణాహుతి.")
-seva("sudarshana-homam", "homams", "Sri Sudarshana Homam", "శ్రీ సుదర్శన హోమం", 7500, 3500, "About 3 hours", "సుమారు 3 గంటలు",
+seva("sudarshana-homam", "homams", "Sri Sudarshana Homam", "శ్రీ సుదర్శన హోమం", 12000, 6500, "About 3 hours", "సుమారు 3 గంటలు",
      "Homam to Sri Sudarshana with the Sudarshana mantra, traditionally performed for the wellbeing of the family and home.",
      "కుటుంబ, గృహ క్షేమం కోసం సుదర్శన మంత్రంతో శ్రీ సుదర్శన హోమం.")
-seva("ayush-homam", "homams", "Ayush Homam", "ఆయుష్ హోమం", 5100, 2800, "About 2.5 hours", "సుమారు 2.5 గంటలు",
+seva("ayush-homam", "homams", "Ayush Homam", "ఆయుష్ హోమం", 8500, 4500, "About 2.5 hours", "సుమారు 2.5 గంటలు",
      "Performed on birthdays, especially the first birthday, praying for a long and healthy life.",
      "పుట్టినరోజున, ముఖ్యంగా మొదటి పుట్టినరోజున, దీర్ఘాయుష్షు, ఆరోగ్యం కోసం చేసే హోమం.")
-seva("namakaranam", "samskaras", "Namakaranam (Naming Ceremony)", "నామకరణం", 2500, 1400, "About 1.5 hours", "సుమారు 1.5 గంటలు",
+seva("namakaranam", "samskaras", "Namakaranam (Naming Ceremony)", "నామకరణం", 2700, 1400, "About 1.5 hours", "సుమారు 1.5 గంటలు",
      "Naming ceremony for the newborn with Ganapathi puja, punyahavachanam and the traditional naming.",
      "శిశువుకు నామకరణం: గణపతి పూజ, పుణ్యాహవాచనం, సంప్రదాయ పద్ధతిలో పేరు పెట్టడం.")
-seva("annaprasana", "samskaras", "Annaprasana", "అన్నప్రాశన", 2100, 1200, "About 1.5 hours", "సుమారు 1.5 గంటలు",
+seva("annaprasana", "samskaras", "Annaprasana", "అన్నప్రాశన", 2700, 1300, "About 1.5 hours", "సుమారు 1.5 గంటలు",
      "The baby's first rice-feeding ceremony, usually in the sixth month, with puja and blessings.",
      "సాధారణంగా ఆరవ నెలలో శిశువుకు మొదటిసారి అన్నం తినిపించే వేడుక, పూజ, ఆశీర్వచనం.")
-seva("aksharabhyasam", "samskaras", "Aksharabhyasam", "అక్షరాభ్యాసం", 1800, 1100, "About 1 hour", "సుమారు 1 గంట",
+seva("aksharabhyasam", "samskaras", "Aksharabhyasam", "అక్షరాభ్యాసం", 2500, 1300, "About 1 hour", "సుమారు 1 గంట",
      "Initiation into learning with Saraswathi and Ganapathi puja. The child writes the first letters on rice.",
      "సరస్వతి, గణపతి పూజతో విద్యారంభం. బియ్యంపై మొదటి అక్షరాలు దిద్దిస్తారు.")
-seva("upanayanam", "samskaras", "Upanayanam", "ఉపనయనం", 11000, 5000, "5 to 6 hours", "5 – 6 గంటలు",
-     "Sacred thread ceremony with udakashanti, yajnopaveetha dharana and Gayatri upadesam. The price is for the main pandit only; additional pandits can be arranged on request.",
-     "ఉదకశాంతి, యజ్ఞోపవీత ధారణ, గాయత్రీ ఉపదేశంతో ఉపనయనం. చూపిన ధర ప్రధాన పండితునికి మాత్రమే; కోరితే అదనపు పండితులను ఏర్పాటు చేస్తాం.")
-seva("shashtipoorthi", "samskaras", "Shashtipoorthi (60th Birthday)", "షష్టిపూర్తి", 15000, 6000, "5 to 6 hours", "5 – 6 గంటలు",
+seva("upanayanam", "samskaras", "Upanayanam", "ఉపనయనం", 15000, 6000, "5 to 6 hours", "5 – 6 గంటలు",
+     "Sacred thread ceremony with udakashanti, yajnopaveetha dharana and Gayatri upadesam. The price covers the pandits needed for a standard ceremony; more pandits can be arranged on request.",
+     "ఉదకశాంతి, యజ్ఞోపవీత ధారణ, గాయత్రీ ఉపదేశంతో ఉపనయనం. సాధారణ కార్యక్రమానికి అవసరమైన పండితులు ధరలో ఉన్నారు; కోరితే అదనపు పండితులను ఏర్పాటు చేస్తాం.")
+seva("shashtipoorthi", "samskaras", "Shashtipoorthi (60th Birthday)", "షష్టిపూర్తి", 31000, 12000, "5 to 6 hours", "5 – 6 గంటలు",
      "Sixtieth birthday ceremony with Ugraratha Shanti homam, kalasha abhishekam and mangalya dharana.",
      "60వ పుట్టినరోజు వేడుక: ఉగ్రరథ శాంతి హోమం, కలశాభిషేకం, మాంగల్య ధారణ.")
-seva("office-opening", "business", "Office / Shop Opening Puja", "కార్యాలయ / దుకాణ ప్రారంభ పూజ", 3100, 1800, "About 2 hours", "సుమారు 2 గంటలు",
+seva("office-opening", "business", "Office / Shop Opening Puja", "కార్యాలయ / దుకాణ ప్రారంభ పూజ", 5100, 2500, "About 2 hours", "సుమారు 2 గంటలు",
      "Ganapathi puja, Lakshmi puja and Vastu puja for a new office, shop, clinic or factory.",
      "కొత్త కార్యాలయం, దుకాణం, క్లినిక్ లేదా ఫ్యాక్టరీ కోసం గణపతి, లక్ష్మీ, వాస్తు పూజ.")
-seva("vahana-puja", "business", "Vahana Puja (New Vehicle)", "వాహన పూజ", 1100, 600, "About 45 minutes", "సుమారు 45 నిమిషాలు",
+seva("vahana-puja", "business", "Vahana Puja (New Vehicle)", "వాహన పూజ", 1500, 600, "About 45 minutes", "సుమారు 45 నిమిషాలు",
      "Puja for a new car, bike or commercial vehicle with Ganapathi puja, kumkum archana and breaking of the coconut.",
      "కొత్త కారు, బైక్ లేదా వాణిజ్య వాహనానికి గణపతి పూజ, కుంకుమ అర్చన, కొబ్బరికాయ కొట్టడం.")
-seva("online-satyanarayana", "online", "Online Satyanarayana Vratham", "ఆన్‌లైన్ సత్యనారాయణ వ్రతం", 1500, 0, "About 2 hours", "సుమారు 2 గంటలు",
+seva("online-satyanarayana", "online", "Online Satyanarayana Vratham", "ఆన్‌లైన్ సత్యనారాయణ వ్రతం", 2100, 0, "About 2 hours", "సుమారు 2 గంటలు",
      "The pandit performs and guides the full vratham live over a video call while your family follows at home. Samagri list shared in advance.",
      "పండితులు వీడియో కాల్ ద్వారా పూర్తి వ్రతాన్ని నిర్వహిస్తూ మార్గనిర్దేశం చేస్తారు. సామగ్రి జాబితా ముందుగానే పంపుతాం.")
-seva("online-ganapathi", "online", "Online Ganapathi Puja", "ఆన్‌లైన్ గణపతి పూజ", 1100, 0, "About 1 hour", "సుమారు 1 గంట",
+seva("online-ganapathi", "online", "Online Ganapathi Puja", "ఆన్‌లైన్ గణపతి పూజ", 1500, 0, "About 1 hour", "సుమారు 1 గంట",
      "Ganapathi puja guided live over video call, for families anywhere in India or abroad.",
      "భారతదేశంలో లేదా విదేశాల్లో ఎక్కడ ఉన్నా వీడియో కాల్ ద్వారా ప్రత్యక్షంగా గణపతి పూజ.")
 
@@ -308,7 +308,7 @@ def home():
          "Experienced Telugu Vaidika pandits from Hyderabad. Every pandit completes identity and document verification (KYC) with us before receiving any booking.",
          "హైదరాబాద్‌కు చెందిన అనుభవజ్ఞులైన తెలుగు వైదిక పండితులు. ప్రతి పండితుడూ బుకింగ్ పొందే ముందు మా వద్ద గుర్తింపు, పత్రాల ధ్రువీకరణ (KYC) పూర్తి చేయాలి."),
         ("Is the puja samagri included?", "పూజా సామగ్రి ధరలో ఉంటుందా?",
-         "The listed price is the pandit's service fee. You can add our samagri kit while booking, and the pandit brings it on the day. You can also arrange the items yourself from the list we share.",
+         "The listed price is the pandit service fee, including every pandit the ritual needs. You can add our samagri kit while booking, and the pandit brings it on the day. You can also arrange the items yourself from the list we share.",
          "చూపిన ధర పండితుని సేవా రుసుము. బుకింగ్ సమయంలో సామగ్రి కిట్‌ను జోడించవచ్చు; పండితులు అదే రోజు తీసుకువస్తారు. లేదా మేము పంపే జాబితా ప్రకారం మీరే ఏర్పాటు చేసుకోవచ్చు."),
         ("How do I pay?", "ఎలా చెల్లించాలి?",
          "After our team confirms your date and pandit, you receive a secure payment link (UPI, cards, net banking, wallets via Razorpay). We pay the pandit after the puja is completed.",
@@ -487,8 +487,8 @@ def services():
   {rows}
 </section>'''
     body = page_hero("సేవా వివరాలు", "Pujas & Prices", "పూజలు & ధరలు",
-                     "Every price below is the service fee for one pandit in Hyderabad, in Indian Rupees. The samagri kit is optional.",
-                     "కింది ప్రతి ధర హైదరాబాద్‌లో ఒక పండితుని సేవా రుసుము (భారత రూపాయలలో). సామగ్రి కిట్ ఐచ్ఛికం.", chips)
+                     "Every price below is the pandit service fee in Hyderabad, in Indian Rupees, and covers the number of pandits the ritual needs. Homams and large ceremonies include the full team. The samagri kit is optional.",
+                     "కింది ప్రతి ధర హైదరాబాద్‌లో పండితుల సేవా రుసుము (భారత రూపాయలలో); ఆ కార్యానికి అవసరమైన పండితులందరూ ఇందులో ఉంటారు. హోమాలు, పెద్ద వేడుకలకు పూర్తి బృందం వస్తుంది. సామగ్రి కిట్ ఐచ్ఛికం.", chips)
     body += f'''<section class="section kolam-bg"><div class="wrap">
 {boards}
 <div class="note">{B("Prices include all Mana Guruji charges. Travel within Hyderabad city limits is included; for venues outside city limits we confirm any travel charge before you pay. Payment is collected online through Razorpay after your booking is confirmed.",
