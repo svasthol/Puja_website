@@ -1,3 +1,19 @@
+/* Self-hosted fonts (no third-party requests) */
+@font-face { font-family: "Marcellus"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/marcellus-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Marcellus"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/marcellus-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Mukta"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/mukta-latin-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Mukta"; font-style: normal; font-weight: 600; font-display: swap; src: url("assets/fonts/mukta-latin-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Ramaraja"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/ramaraja-telugu.woff2") format("woff2");
+  unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+200C-200D, U+25CC; }
+@font-face { font-family: "Mandali"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/mandali-telugu.woff2") format("woff2");
+  unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+200C-200D, U+25CC; }
+@font-face { font-family: "Mandali"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/mandali-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* Layout concept: a temple courtyard — deep-teal gopuram bands frame sandalwood-paper content,
    with a mango-leaf thoranam at the threshold and seva-board price lists. */
 :root {
@@ -280,8 +296,8 @@ html[data-lang="te"] .contact-list span { text-transform: none; letter-spacing: 
 .site-footer { background: #241811; color: #d8ccb6; font-size: .95rem; }
 .site-footer .thoranam { opacity: .9; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 2rem; padding-block: 2.8rem 2rem; }
-.footer-grid h4 { margin: 0 0 .8rem; font: 400 1.1rem/1.2 var(--f-display); color: var(--gold-soft); letter-spacing: .04em; }
-html[data-lang="te"] .footer-grid h4 { font-family: var(--f-te-display); }
+.footer-grid h2.fh { margin: 0 0 .8rem; font: 400 1.1rem/1.2 var(--f-display); color: var(--gold-soft); letter-spacing: .04em; }
+html[data-lang="te"] .footer-grid h2.fh { font-family: var(--f-te-display); }
 .footer-grid ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .4rem; }
 .footer-grid a { color: #d8ccb6; text-decoration: none; }
 .footer-grid a:hover { color: var(--gold-soft); text-decoration: underline; }
@@ -387,3 +403,35 @@ html[data-lang="en"] .eyebrow { font-family: var(--f-display); font-size: .82rem
 /* Surya section is second now: no entrance animation, always visible */
 .opening .hero-copy > *, .opening .hero-art { animation: none; }
 
+
+/* Readable gold on light sections (WCAG AA) */
+.section .eyebrow, .section-alt .eyebrow, .kolam-bg .eyebrow { color: #85540f; }
+.opening .eyebrow, .guru .eyebrow, .page-hero .eyebrow, .band .eyebrow { color: var(--gold); }
+
+/* Puja detail pages */
+.seva-link { color: inherit; text-decoration: none; }
+.seva-link:hover { color: var(--kumkum); text-decoration: underline; text-underline-offset: 3px; }
+.seva-meta .more-link { margin-left: auto; color: var(--teal-700); font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; }
+.seva-meta .more-link + .book-link { margin-left: 0; }
+@media (max-width: 520px) { .seva-meta .more-link { margin-left: 0; } }
+.crumbs { font-size: .9rem; color: #cfc4ae; margin-top: .4rem; }
+.crumbs a { color: var(--gold-soft); text-decoration: none; }
+.puja-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: 2rem; align-items: start; }
+.puja-main { display: grid; gap: 2rem; min-width: 0; }
+.puja-main .board + .board { margin-top: 0; }
+.facts { margin: 0; display: grid; }
+.facts div { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-bottom: 1px dashed var(--line); }
+.facts div:last-child { border-bottom: 0; }
+.facts dt { color: var(--teal-900); font-weight: 600; }
+.facts dd { margin: 0; color: var(--ink-soft); }
+.mini-steps { margin: .6rem 0 0; padding-left: 1.3rem; display: grid; gap: .55rem; color: var(--ink-soft); }
+.puja-main .faq { max-width: none; }
+.fh-side { font-size: 1.2rem; color: var(--gold-soft); }
+.rel { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.rel li { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px dashed rgba(246,236,218,.25); padding-bottom: .5rem; }
+.rel a { color: var(--sandal); }
+.rel-price { color: var(--gold-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) { .puja-grid { grid-template-columns: 1fr; } .facts div { grid-template-columns: 1fr; gap: .2rem; } }
+.footer-grid { grid-template-columns: 1.3fr .9fr 1fr 1fr 1.2fr; }
+@media (max-width: 1000px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
