@@ -14,15 +14,14 @@ OUT = os.path.dirname(HERE)  # repo root = the published site
 # ----------------------------------------------------------------------------
 BIZ = {
     "brand": "Mana Guruji",
-    "legal": "[Registered business / proprietor name]",
-    "address": "[Door no., Street, Area], Hyderabad, Telangana – [PIN code]",
-    "phone": "+91 [10-digit phone]",
-    "whatsapp": "+91 [10-digit WhatsApp]",
-    "email": "support@managuruji.in",
+    "legal": "Mana Guruji",
+    "udyam": "UDYAM-TS-20-0209216",
+    "address": "Hyderabad, Telangana 500083, India",
+    "email": "support@managuruji.in",            # bookings, payments, refunds, complaints
+    "contact_email": "contact@managuruji.in",    # general enquiries and collaborations
     "hours_en": "6:00 AM to 9:00 PM, all days",
     "hours_te": "ఉదయం 6:00 నుండి రాత్రి 9:00 వరకు, అన్ని రోజులు",
     "domain": "managuruji.in",
-    "grievance": "[Grievance Officer name]",
     "updated": "10 November 2026",
     "refund_before_24h": 90,   # % of amount paid, cancelled >24h before puja
     "refund_within_24h": 50,   # % of amount paid, cancelled within 24h of puja
@@ -235,10 +234,10 @@ def footer():
       <div><h4>{B("Explore", "పేజీలు")}</h4><ul>{nav}</ul></div>
       <div><h4>{B("Policies", "విధానాలు")}</h4><ul>{pol}</ul></div>
       <div><h4>{B("Contact", "సంప్రదించండి")}</h4><ul>
-        <li>{BIZ["phone"]}</li><li>{BIZ["email"]}</li><li>{BIZ["address"]}</li>
+        <li>{B("Support", "సహాయం")}: {BIZ["email"]}</li><li>{B("General & collaborations", "సాధారణ విచారణలు & భాగస్వామ్యాలు")}: {BIZ["contact_email"]}</li><li>{B(BIZ["address"], "హైదరాబాద్, తెలంగాణ 500083, భారతదేశం")}</li>
         <li>{B(BIZ["hours_en"], BIZ["hours_te"])}</li></ul></div>
     </div>
-    <div class="footer-bottom"><span>© <span data-year>2026</span> {BIZ["brand"]} · {BIZ["legal"]}</span><span>{BIZ["domain"]} · {B("Hyderabad, Telangana, India", "హైదరాబాద్, తెలంగాణ, భారతదేశం")}</span></div>
+    <div class="footer-bottom"><span>© <span data-year>2026</span> {BIZ["brand"]} · {B("Udyam Reg. No.", "ఉద్యమ్ నమోదు సంఖ్య")} {BIZ["udyam"]}</span><span>{BIZ["domain"]} · {B("Hyderabad, Telangana, India", "హైదరాబాద్, తెలంగాణ, భారతదేశం")}</span></div>
   </div>
 </footer>'''
 
@@ -508,8 +507,8 @@ def book():
     data = json.dumps([{k: s[k] for k in ("id", "en", "te", "price", "kit", "durEn", "durTe")} for s in S], ensure_ascii=False)
     ok = B("Thank you. Your booking request is received. During support hours (6 AM to 9 PM), our team will call you within 2 hours to confirm the pandit and share a secure payment link.",
            "ధన్యవాదాలు. మీ బుకింగ్ అభ్యర్థన అందింది. సేవా సమయంలో (ఉదయం 6 నుండి రాత్రి 9 వరకు) పండితుని నిర్ధారించి సురక్షిత చెల్లింపు లింక్ పంపడానికి 2 గంటల్లో మా బృందం కాల్ చేస్తుంది.").replace('"', "&quot;")
-    err = B(f"We could not send your request. Please call or WhatsApp us at {BIZ['phone']}.",
-            f"మీ అభ్యర్థన పంపలేకపోయాం. దయచేసి {BIZ['phone']} కు కాల్ లేదా WhatsApp చేయండి.").replace('"', "&quot;")
+    err = B(f"We could not send your request. Please email your booking details to {BIZ['email']}.",
+            f"మీ అభ్యర్థన పంపలేకపోయాం. దయచేసి మీ బుకింగ్ వివరాలను {BIZ['email']} కు ఈమెయిల్ చేయండి.").replace('"', "&quot;")
     body = page_hero("పూజ బుకింగ్", "Book a Puja", "పూజ బుక్ చేయండి",
                      "Fill in your details. We confirm a verified pandit and send you a secure payment link.",
                      "మీ వివరాలు నింపండి. ధ్రువీకరించిన పండితుని నిర్ధారించి సురక్షిత చెల్లింపు లింక్ పంపుతాం.")
@@ -561,16 +560,15 @@ def book():
 
 def contact():
     ok = B("Thank you. We will reply within a few hours.", "ధన్యవాదాలు. కొన్ని గంటల్లో స్పందిస్తాం.").replace('"', "&quot;")
-    err = B(f"Message not sent. Please call {BIZ['phone']}.", f"సందేశం పంపలేకపోయాం. {BIZ['phone']} కు కాల్ చేయండి.").replace('"', "&quot;")
+    err = B(f"Message not sent. Please email {BIZ['contact_email']}.", f"సందేశం పంపలేకపోయాం. దయచేసి {BIZ['contact_email']} కు ఈమెయిల్ చేయండి.").replace('"', "&quot;")
     body = page_hero("సంప్రదింపులు", "Contact us", "మమ్మల్ని సంప్రదించండి",
-                     "Questions about a puja, a booking or a payment? Reach us by phone, WhatsApp or email.",
-                     "పూజ, బుకింగ్ లేదా చెల్లింపు గురించి ప్రశ్నలా? ఫోన్, WhatsApp లేదా ఈమెయిల్ ద్వారా సంప్రదించండి.")
+                     "Questions about a puja, a booking or a payment, or interested in working with us? Write to us and we will reply within one working day.",
+                     "పూజ, బుకింగ్ లేదా చెల్లింపు గురించి ప్రశ్నలా, లేదా మాతో కలిసి పనిచేయాలనుకుంటున్నారా? మాకు రాయండి; ఒక పని దినంలో స్పందిస్తాం.")
     body += f'''<section class="section kolam-bg"><div class="wrap contact-grid">
 <div class="contact-list">
-  <div><span>{B("Phone", "ఫోన్")}</span><strong>{BIZ["phone"]}</strong></div>
-  <div><span>WhatsApp</span><strong>{BIZ["whatsapp"]}</strong></div>
-  <div><span>{B("Email", "ఈమెయిల్")}</span><strong>{BIZ["email"]}</strong></div>
-  <div><span>{B("Registered office", "కార్యాలయ చిరునామా")}</span><strong>{BIZ["legal"]}<br>{BIZ["address"]}</strong></div>
+  <div><span>{B("Bookings & support", "బుకింగ్‌లు & సహాయం")}</span><strong>{BIZ["email"]}</strong></div>
+  <div><span>{B("General enquiries & collaborations", "సాధారణ విచారణలు & భాగస్వామ్యాలు")}</span><strong>{BIZ["contact_email"]}</strong></div>
+  <div><span>{B("Business", "వ్యాపారం")}</span><strong>{B("Mana Guruji", "మన గురూజీ")}<br>{B("MSME registered · Udyam Reg. No.", "MSME నమోదిత · ఉద్యమ్ నమోదు సంఖ్య")} {BIZ["udyam"]}<br>{B(BIZ["address"], "హైదరాబాద్, తెలంగాణ 500083, భారతదేశం")}</strong></div>
   <div><span>{B("Support hours", "సేవా సమయం")}</span><strong>{B(BIZ["hours_en"], BIZ["hours_te"])}</strong></div>
 </div>
 <form class="form-card" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-mg-form data-ok="{ok}" data-err="{err}">
@@ -612,7 +610,7 @@ def about():
        "మా పండితులు తెలుగు స్మార్త, వైష్ణవ సంప్రదాయాల్లో శిక్షణ పొందిన స్వతంత్ర వైదిక నిపుణులు. వారు స్వీకరించే బుకింగ్‌లను వారే ఎంచుకుంటారు; ప్రతి పూజకు న్యాయంగా, సమయానికి చెల్లింపు పొందుతారు.")}</p>
 <p>{B('Are you a pandit in Hyderabad? <a href="contact.html">Contact us</a> to join.', 'మీరు హైదరాబాద్‌లో పండితులా? చేరడానికి <a href="contact.html">మమ్మల్ని సంప్రదించండి</a>.')}</p>
 <h2>{B("Business details", "వ్యాపార వివరాలు")}</h2>
-<p>{B(f"{BIZ['brand']} is operated by {BIZ['legal']}, {BIZ['address']}. Email: {BIZ['email']} · Phone: {BIZ['phone']}.", f"మన గురూజీని {BIZ['legal']}, {BIZ['address']} నిర్వహిస్తోంది. ఈమెయిల్: {BIZ['email']} · ఫోన్: {BIZ['phone']}.")}</p>
+<p>{B(f"Mana Guruji is an MSME registered with the Government of India (Udyam Registration No. {BIZ['udyam']}), based in {BIZ['address']}. For bookings and support, email {BIZ['email']}. For general enquiries and collaborations, email {BIZ['contact_email']}.", f"మన గురూజీ భారత ప్రభుత్వం వద్ద నమోదైన MSME సంస్థ (ఉద్యమ్ నమోదు సంఖ్య {BIZ['udyam']}), హైదరాబాద్, తెలంగాణ 500083 కేంద్రంగా పనిచేస్తోంది. బుకింగ్‌లు, సహాయం కోసం {BIZ['email']} కు, సాధారణ విచారణలు, భాగస్వామ్యాల కోసం {BIZ['contact_email']} కు ఈమెయిల్ చేయండి.")}</p>
 </article></div></section>'''
     return page("about.html", "About · Mana Guruji", "About Mana Guruji, a Hyderabad platform to book verified Telugu pandits for pujas.", body, "about.html")
 
@@ -633,7 +631,7 @@ def terms():
     b = BIZ
     return policy("terms-and-conditions.html", "నిబంధనలు", "Terms & Conditions", "నిబంధనలు & షరతులు",
         f"The terms that apply when you use {b['domain']} or the Mana Guruji app to book a puja.", [
-        ("1. About these terms", f"<p>These terms govern your use of the website {b['domain']}, the Mana Guruji mobile app and the services offered through them (together, the \"Platform\"). The Platform is operated by {b['legal']}, {b['address']} (\"Mana Guruji\", \"we\", \"us\"). By booking a service you agree to these terms.</p>"),
+        ("1. About these terms", f"<p>These terms govern your use of the website {b['domain']}, the Mana Guruji mobile app and the services offered through them (together, the \"Platform\"). The Platform is operated by Mana Guruji, an MSME registered under Udyam Registration No. {b['udyam']}, based in {b['address']} (\"Mana Guruji\", \"we\", \"us\"). By booking a service you agree to these terms.</p>"),
         ("2. Our service", "<p>Mana Guruji is a booking platform for Hindu religious services such as pujas, vratams, homams and samskaras. The services are performed by independent pandits who have completed our verification (KYC). We take your booking, assign a pandit, collect payment, and pay the pandit their share after the service is completed.</p>"),
         ("3. Bookings", "<ul><li>A booking request is confirmed only when we confirm a pandit and you complete payment.</li><li>You must provide accurate details: name, phone number, address, date and any ritual-specific information.</li><li>Puja duration shown is approximate and may vary with the customs followed by your family.</li><li>For home pujas, please ensure the venue is accessible and safe for the pandit at the scheduled time.</li></ul>"),
         ("4. Prices and payment", "<ul><li>All prices are listed in Indian Rupees (INR) on our Pujas & Prices page and include Mana Guruji charges.</li><li>Payments are processed securely by Razorpay through UPI, debit and credit cards, net banking and wallets. We do not store your card details.</li><li>Any travel charge for venues outside Hyderabad city limits is shown to you before payment.</li><li>Dakshina or gifts you choose to give the pandit voluntarily on the day are between you and the pandit and are not processed by us.</li></ul>"),
@@ -643,7 +641,7 @@ def terms():
         ("8. Liability", "<p>We take care in verifying pandits and managing bookings. To the extent permitted by law, our total liability for any booking is limited to the amount you paid us for that booking.</p>"),
         ("9. Changes", "<p>We may update these terms from time to time. The version published on this page applies to bookings made after the update.</p>"),
         ("10. Governing law", "<p>These terms are governed by the laws of India. Courts in Hyderabad, Telangana have exclusive jurisdiction.</p>"),
-        ("11. Contact", f"<p>{b['legal']}, {b['address']}<br>Email: {b['email']} · Phone: {b['phone']}</p>"),
+        ("11. Contact", f"<p>Mana Guruji (Udyam Reg. No. {b['udyam']}), {b['address']}<br>Bookings & support: {b['email']} · General enquiries & collaborations: {b['contact_email']}</p>"),
     ])
 
 def privacy():
@@ -656,7 +654,7 @@ def privacy():
         ("4. Storage and security", "<p>Data is stored on secure servers with access limited to authorised staff. KYC documents are kept in private storage. We keep booking records for as long as required for accounting and legal purposes.</p>"),
         ("5. Your choices", "<p>You can ask us to access, correct or delete your personal information, subject to records we must keep by law. Write to us at the email below.</p>"),
         ("6. Cookies", "<p>The website uses only essential browser storage, for example to remember your language choice. We do not use advertising cookies.</p>"),
-        ("7. Contact and grievance officer", f"<p>For privacy questions or grievances, contact our Grievance Officer, {b['grievance']}, at {b['legal']}, {b['address']}. Email: {b['email']} · Phone: {b['phone']}. We respond within 7 working days.</p>"),
+        ("7. Contact and Grievance Officer", f"<p>For privacy questions or grievances, write to the Grievance Officer, Mana Guruji, {b['address']}, at {b['email']}. We acknowledge every grievance within 24 hours and resolve it within 15 days.</p>"),
     ])
 
 def refund():
@@ -670,13 +668,13 @@ def refund():
 </table></div>'''
     return policy("refund-policy.html", "రద్దు & రీఫండ్", "Cancellation & Refund Policy", "రద్దు & రీఫండ్ విధానం",
         "When you can cancel a puja booking and how refunds are processed.", [
-        ("1. Cancelling a booking", f"<p>To cancel, call or WhatsApp us at {b['phone']}, email {b['email']} with your booking details, or cancel in the Mana Guruji app if you booked there. Refunds depend on when you cancel:</p>{table}<p>Times are calculated in Indian Standard Time against the scheduled start time of the puja.</p>"),
+        ("1. Cancelling a booking", f"<p>To cancel, email {b['email']} with your booking details, reply to the confirmation message from our team, or cancel in the Mana Guruji app if you booked there. Refunds depend on when you cancel:</p>{table}<p>Times are calculated in Indian Standard Time against the scheduled start time of the puja.</p>"),
         ("2. Cancellations by us", "<ul><li>If we cannot assign a pandit for your booking, we cancel it and refund 100% of the amount paid.</li><li>If the assigned pandit cancels, we first try to assign another verified pandit for the same time. If we cannot, you receive a 100% refund.</li><li>If the pandit does not arrive and we are unable to arrange a replacement, you receive a 100% refund.</li></ul>"),
         ("3. Rescheduling", "<p>You may reschedule once at no charge if you inform us more than 24 hours before the puja, subject to pandit availability.</p>"),
         ("4. Samagri kit", "<p>If you cancel before the puja day, the samagri kit amount is refunded in full. Once the kit has been brought to the venue, the kit amount is not refundable.</p>"),
         ("5. Service complaints", "<p>If the service was not performed as described, contact us within 48 hours of the scheduled time. We review each case and may offer a partial or full refund.</p>"),
         ("6. How refunds are paid", "<p>Approved refunds are initiated within 2 working days and credited to the original payment method through Razorpay. Banks usually take 5 to 7 working days to show the credit. Amounts paid by you directly to a pandit outside the Platform are not refundable through us.</p>"),
-        ("7. Contact", f"<p>{b['legal']}, {b['address']}<br>Email: {b['email']} · Phone: {b['phone']}</p>"),
+        ("7. Contact", f"<p>Mana Guruji (Udyam Reg. No. {b['udyam']}), {b['address']}<br>Bookings & support: {b['email']} · General enquiries & collaborations: {b['contact_email']}</p>"),
     ])
 
 def delivery():
@@ -688,8 +686,8 @@ def delivery():
         ("3. Confirmation timeline", "<ul><li>We confirm a pandit within 2 hours of your booking request during support hours, and in any case within 24 hours.</li><li>Bookings should be made at least 24 hours before the puja. Same-day requests are accepted subject to availability.</li><li>You receive the pandit's name and booking details by SMS, WhatsApp or in the app before the puja day.</li></ul>"),
         ("4. Delivery of the service", "<ul><li>The pandit arrives at your venue at the confirmed time and performs the puja for the duration listed.</li><li>For online pujas, a video call link is shared at least 2 hours before the start time.</li><li>The service is considered delivered when the puja is completed and marked complete by the pandit.</li></ul>"),
         ("5. Samagri kit", "<p>If you add a samagri kit, the pandit brings it to your venue on the day of the puja. There is no separate shipping or delivery charge.</p>"),
-        ("6. Delays", f"<p>If the pandit is delayed, our team will inform you. If the delay affects your muhurtham, contact us at {b['phone']} and we will arrange a replacement or refund as set out in our <a href=\"refund-policy.html\">Cancellation & Refund Policy</a>.</p>"),
-        ("7. Contact", f"<p>{b['legal']}, {b['address']}<br>Email: {b['email']} · Phone: {b['phone']}</p>"),
+        ("6. Delays", f"<p>If the pandit is delayed, our team will inform you. If the delay affects your muhurtham, email {b['email']} or reply to our team's message, and we will arrange a replacement or refund as set out in our <a href=\"refund-policy.html\">Cancellation & Refund Policy</a>.</p>"),
+        ("7. Contact", f"<p>Mana Guruji (Udyam Reg. No. {b['udyam']}), {b['address']}<br>Bookings & support: {b['email']} · General enquiries & collaborations: {b['contact_email']}</p>"),
     ])
 
 def notfound():
